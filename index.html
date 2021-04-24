@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRUEBA MOVILBOX</title>
+    <link href="sources/css/bootstrap.min.css" rel="stylesheet" >
+    <link href="sources/css/fullcalendar.min..css" rel="stylesheet" >
+    <link href="sources/css/toastr.min.css" rel="stylesheet" >
+    <script src="sources/js/jquery.min.js"></script>
+    <script src="sources/js/moment.min.js"></script>
+    <script src="sources/js/bootstrap.min.js"></script>
+    <script src="sources/js/axios.js"></script>
+    <script src="sources/js/vue.js"></script>
+    <script src="sources/js/fullcalendar.min.js"></script>
+    <script src="sources/js/locales.min.js"></script>
+    <script src="sources/js/toastr.min.js"></script>
+    <link href="css/general.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/1946b0d2e3.js"></script>
+</head>
+<body>
+    <div id="app" class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="row">
+                <div class="col-md-3 col-sm-12 col-xs-12 border-end">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="input-group mb-3 m-2">
+                            <input type="text" class="form-control" placeholder="Buscar usuarios" v-model="searchQuery" aria-label="Buscar usuarios" aria-describedby="button-addon2">
+                        </div>
+                    </div>
+                    <div id="external-events" class="col-md-12 col-sm-12 col-xs-12 listUsers">
+                        <template v-for="user in resultQuery">
+                            <div class="row border-top border-bottom itemUser">
+                                <div class="col-md-11 col-sm-12 col-xs-12">
+                                    <div :id="'ctnUser' + user.idus" 
+                                    class="row contentItemUser" 
+                                    @mouseover="setBackgroundColorHover(user.idus, user.color_one, user.color_two, user.color_three)"
+                                    @mouseleave="removeBackgroundColorHover(user.idus, user.color_one, user.color_two, user.color_three)"
+                                    >
+                                        <div :id="'evento' + user.idus" class="col-md-12 col-sm-12 col-xs-12 fc-event item" :value="user.idus">
+                                            <p><strong v-text="user.nombre"></strong></p>
+                                            <p><strong v-text="user.perfil"></strong></p>
+                                            <p style="display: none;">{"id": 1, "randomProperty": "foobar", "title": "This is event 1"}</p>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="row">
+                                                <div class="col-md-10 col-sm-12 col-xs-12">
+                                                    <p class="textInfoUsers">Días Planificados</p>
+                                                </div>
+                                                <div class="col-md-2 col-sm-12 col-xs-12" v-text="user.dias_plani"></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-10 col-sm-12 col-xs-12">
+                                                    <p class="textInfoUsers">Cant Tiendas Planificados</p>
+                                                </div>
+                                                <div class="col-md-2 col-sm-12 col-xs-12" v-text="user.tiendas_plani"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1 col-sm-12 col-xs-12 markColorUser" :style="setBackgroundColor(user.color_one, user.color_two, user.color_three)">
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <div class="col-md-9 col-sm-12 col-xs-12">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="container">
+                                <div class="row full-calendar">
+                                    <div id="calendar"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12" align="center">
+                            <button type="button" class="btn btn-primary btnSaveProgramacion" @click="saveProgramacion">GUARDAR</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav id="context-menu" class="context-menu">
+        <ul class="context-menu__items">
+            <li class="context-menu__item">
+                <a href="#" class="context-menu__link" data-action="View"><i class="fa fa-edit"></i> Editar</a>
+            </li>
+            <li class="context-menu__item">
+                <a href="#" class="context-menu__link" data-action="Edit"><i class="fa fa-refresh"></i> Reprogramar</a>
+            </li>
+            <li class="context-menu__item">
+                <a href="#" class="context-menu__link" data-action="Delete"><i class="fa fa-trash"></i> Eliminar</a>
+            </li>
+            <li class="context-menu__item">
+                <a href="#" class="context-menu__link" data-action="Delete"><i class="fa fa-window-close"></i> Cerrar</a>
+            </li>
+        </ul>
+    </nav>
+</body>
+</html>
+
+<script src="js/general.js"></script>
+<script src="js/calendar.js"></script>
